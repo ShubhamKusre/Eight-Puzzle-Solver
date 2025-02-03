@@ -1,31 +1,31 @@
-def uniform_cost_search(start, goal):
-    if start.checkGoalState(goal):
-        return start
-    
-    queue = []
-    queue.append(start)
-    seen = []
-    expendCnt = 0
-    maxQueue = len(queue)
-    
+def uniform_cost_search(start_state, goal_state):
+    if start_state.checkGoalState(goal_state):
+        return start_state
+
+    search_queue = []
+    search_queue.append(start_state)
+    visited_states = []
+    steps_expanded = 0
+    max_frontier_size = len(search_queue)
+
     while True:
-        if len(queue) == 0:
-            return False
-        
-        current = queue.pop(0)
-        expendCnt += 1
-        
-        if current.checkGoalState(goal):
-            current.maxQueue = maxQueue   
-            return current
-        
-        seen.append(current.getMatrix().tolist())
-        child = current.getChild()
-        
-        for c in child:
-            if c.getMatrix().tolist() not in seen:
-                c.expended = expendCnt
-                queue.append(c)
-        
-        if len(queue) > maxQueue:
-            maxQueue = len(queue)
+        if len(search_queue) == 0:
+            return "failure"
+
+        current_node = search_queue.pop(0)
+        steps_expanded += 1
+
+        if current_node.checkGoalState(goal_state):
+            current_node.maxQueue = max_frontier_size
+            return current_node
+
+        visited_states.append(current_node.getMatrix().tolist())
+        expanded_nodes = current_node.getChild()
+
+        for next_node in expanded_nodes:
+            if next_node.getMatrix().tolist() not in visited_states:
+                next_node.expended = steps_expanded
+                search_queue.append(next_node)
+
+        if len(search_queue) > max_frontier_size:
+            max_frontier_size = len(search_queue)
