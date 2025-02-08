@@ -5,7 +5,7 @@ def uniform_cost_search(start_state, goal_state):
     search_queue = []
     search_queue.append(start_state)
     visited_states = []
-    steps_expanded = 0
+    expandedCount = 0
     max_frontier_size = len(search_queue)
 
     while True:
@@ -13,7 +13,7 @@ def uniform_cost_search(start_state, goal_state):
             return "failure"
 
         current_node = search_queue.pop(0)
-        steps_expanded += 1
+        expandedCount += 1
 
         if current_node.checkGoalState(goal_state):
             current_node.maxQueue = max_frontier_size
@@ -24,7 +24,7 @@ def uniform_cost_search(start_state, goal_state):
 
         for next_node in expanded_nodes:
             if next_node.getMatrix().tolist() not in visited_states:
-                next_node.expended = steps_expanded
+                next_node.expended = expandedCount
                 search_queue.append(next_node)
 
         if len(search_queue) > max_frontier_size:
